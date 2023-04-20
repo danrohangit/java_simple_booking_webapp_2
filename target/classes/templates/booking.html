@@ -10,9 +10,46 @@
 
 	<h1>Booking Dates</h1>
 	
-	<ul>
-	  <li th:each="date : ${theDates}" th:text="${date}"></li>
-	</ul>	
+<!-- Table for first month dates -->
+<table>
+    <thead>
+        <tr>
+            <th th:text="${months[0]}"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="date : ${datesOfFirstMonth}">
+            <td th:text="${date}"></td>
+            <td>
+                <form method="POST" th:action="@{/book}">
+                    <input type="hidden" name="selectedDate" th:value="${date}">
+                    <button type="submit">Book</button>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Table for second month dates -->
+<table>
+    <thead>
+        <tr>
+            <th th:text="${months[1]}"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="date : ${datesOfSecondMonth}">
+            <td th:text="${date}"></td>
+            <td>
+                <form method="POST" th:action="@{/book}">
+                    <input type="hidden" name="selectedDate" th:value="${date}">
+                    <button type="submit">Book</button>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
 
 	<!--
     <p th:text="'Current date is...., ' + ${currentDate} + '!'" />
