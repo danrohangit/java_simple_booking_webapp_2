@@ -47,7 +47,7 @@ public class DateModel {
 		*/
         if (rs.next()) {
             dates.add(rs.getString(1));
-            for (int i = 1; i <= 30; i++) {
+            for (int i = 1; i <= 33; i++) {
                 rs = stmt.executeQuery("SELECT DATE_ADD(CURRENT_DATE(), INTERVAL " + i + " DAY)");
                 if (rs.next()) {
                     dates.add(rs.getString(1));
@@ -63,8 +63,8 @@ public class DateModel {
         return dates;
     }	
 
-	/*
-    public String getCurrentDate() throws Exception {
+	
+    public String getCurrentDateTime() throws Exception {
 		// Load the JDBC driver class into memory
 		Class.forName("com.mysql.jdbc.Driver");		
 		
@@ -75,7 +75,7 @@ public class DateModel {
         Statement stmt = conn.createStatement();
 		
 		//execute query
-        ResultSet rs = stmt.executeQuery("SELECT CURRENT_DATE()");
+        ResultSet rs = stmt.executeQuery("SELECT NOW()");
 		
 		//if rs.next() is true, return string
         if (rs.next()) {
@@ -84,5 +84,5 @@ public class DateModel {
             return null;
         }
     }
-	*/
+	
 }

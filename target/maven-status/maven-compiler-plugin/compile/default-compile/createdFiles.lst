@@ -1,4 +1,5 @@
 com\example\servingwebcontent\model\DateModel.class
 com\example\servingwebcontent\ServletInitializer.class
+com\example\servingwebcontent\controller\GreetingController$1.class
 com\example\servingwebcontent\controller\GreetingController.class
 com\example\servingwebcontent\ServingWebContentApplication.class
