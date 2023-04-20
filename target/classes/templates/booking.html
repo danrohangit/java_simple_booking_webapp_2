@@ -7,7 +7,16 @@
 </head>
 
 <body>
+
+	<h1>Booking Dates</h1>
+	
+	<ul>
+	  <li th:each="date : ${theDates}" th:text="${date}"></li>
+	</ul>	
+
+	<!--
     <p th:text="'Current date is...., ' + ${currentDate} + '!'" />
+	-->
 </body>
 
 </html>
