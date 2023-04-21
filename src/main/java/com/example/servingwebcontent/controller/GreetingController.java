@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,8 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Arrays;
+import java.time.LocalTime;
 
 @Controller
 public class GreetingController {
@@ -102,65 +106,56 @@ public class GreetingController {
 		//return url path
 		return "booking";		
 	}
-
-	/*	
-	// retrieve the date list
-	public String getDates(Model model) {
+	
+	// map http post request for url path /booking
+    @PostMapping("/book")
+    public String book(@RequestParam("selectedDate") String selectedDate,Model model) {
+        model.addAttribute("date", selectedDate);
+		
+        // Define the list of available times
+        List<String> timeList = Arrays.asList("11:00", "12:00", "13:00","14:00","15:00","16:00","17:00",
+		"18:00","19:00");		
+		
+        // Define a new list to hold the available times that are later than the current time
+        List<String> newTimeList = new ArrayList<>();	
+		
 		try{
-			//add the list of dates to the theDates list
-			List<String> theDates = dateModel.getCurrentAndFutureDates();
+			String theTime = dateModel.getCurrentDateTime();
 			
-			//add theDates list to model as attribute
-			model.addAttribute("theDates", theDates);
+			String dateOnly = theTime.substring(0, 10);
+			
+			String timeOnly = theTime.substring(11);
+			
+			if(selectedDate.equals(dateOnly)){
+				
+				LocalTime timeOnlyParsed = LocalTime.parse(timeOnly);
+				
+				// Loop through the available times
+				for (String time : timeList) {
+					// Parse the time string into a LocalTime object
+					LocalTime availableTime = LocalTime.parse(time);
+
+					// Compare the current time to the available time
+					if (timeOnlyParsed.compareTo(availableTime) < 0) {
+						// The available time is later than or equal to the current time,
+						// so add it to the new list
+						newTimeList.add(time);
+					}
+				}
+				model.addAttribute("timeList", newTimeList);
+			}
+			
+			else{
+				model.addAttribute("timeList", timeList);
+				
+			}
 			
 		}	catch (Exception e) {
 			//add the error message to model as attribute
-			model.addAttribute("theDates", "Error: " + e.getMessage());
+			model.addAttribute("date", "Error: " + e.getMessage());
 		}
 		
-        try {
-            String currentDateTime = dateModel.getCurrentDateTime();
-			
-			//add currentDateTime attribute to model
-            model.addAttribute("currentDateTime", currentDateTime);
-        } catch (Exception e) {
-            model.addAttribute("currentDateTime", "Error: " + e.getMessage());
-        }
-		
-		//return url path
-		return "booking";
-	}
-	*/		
-	
-	/*
-	// retrieve date with sql
-    public String getCurrentDateTime(Model model) {
-        try {
-            String currentDate = dateModel.getCurrentDate();
-			
-			//add currentDate attribute to model
-            model.addAttribute("currentDate", currentDate);
-        } catch (Exception e) {
-            model.addAttribute("currentDate", "Error: " + e.getMessage());
-        }
-		
-		//return url path
-        return "booking";
-    }	
-	*/
-	
-	/*
-    @GetMapping("/greeting")
-    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
-        model.addAttribute("name", name);
-        try {
-            String currentDate = dateModel.getCurrentDate();
-            model.addAttribute("currentDate", currentDate);
-        } catch (Exception e) {
-            model.addAttribute("currentDate", "Error: " + e.getMessage());
-        }
-        return "greeting";
+        return "book";
     }
-	*/
 
 }

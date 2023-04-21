@@ -27,7 +27,7 @@ public class DateModel {
 	
     public List<String> getCurrentAndFutureDates() throws Exception {
 		// Load the JDBC driver class into memory
-		Class.forName("com.mysql.jdbc.Driver");
+		Class.forName("com.mysql.cj.jdbc.Driver");
 		
 		//create a new connection object to database
         Connection conn = DriverManager.getConnection(url, username, password);
@@ -47,7 +47,7 @@ public class DateModel {
 		*/
         if (rs.next()) {
             dates.add(rs.getString(1));
-            for (int i = 1; i <= 33; i++) {
+            for (int i = 1; i <= 31; i++) {
                 rs = stmt.executeQuery("SELECT DATE_ADD(CURRENT_DATE(), INTERVAL " + i + " DAY)");
                 if (rs.next()) {
                     dates.add(rs.getString(1));
@@ -66,7 +66,7 @@ public class DateModel {
 	
     public String getCurrentDateTime() throws Exception {
 		// Load the JDBC driver class into memory
-		Class.forName("com.mysql.jdbc.Driver");		
+		Class.forName("com.mysql.cj.jdbc.Driver");		
 		
 		//create a new connection object to database
         Connection conn = DriverManager.getConnection(url, username, password);
