@@ -25,9 +25,10 @@
 			<tr th:each="time : ${timeList}">
 				<td th:text="${time}"></td>
 				<td>
-					<!-- submit post request to /book -->
-					<form method="POST" th:action="@{/book}">
-						<input type="hidden" name="selectedDate" th:value="${time}">
+					<!-- submit post request to /postBook -->
+					<form method="POST" th:action="@{/postBook}">
+						<input type="hidden" name="selectedDate" th:value="${date}">
+						<input type="hidden" name="selectedTime" th:value="${time}">						
 						<button type="submit">Select Time</button>
 					</form>
 				</td>

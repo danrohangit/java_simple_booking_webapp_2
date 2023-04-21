@@ -157,5 +157,18 @@ public class GreetingController {
 		
         return "book";
     }
+	
+	// map http post request for url path /booking
+    @PostMapping("/postBook")
+    public String postBook(@RequestParam("selectedDate") String selectedDate,@RequestParam("selectedTime") String selectedTime,Model model) {
+        
+		model.addAttribute("date", selectedDate);
+		model.addAttribute("time", selectedTime);
+		
+		String bookedString = "Booked!";
+		model.addAttribute("bookedString",bookedString);		
+
+        return "index";
+    }	
 
 }

@@ -1,5 +1,4 @@
 body {
-    display: flex;
     height: 100vh;
 }
 
@@ -8,7 +7,7 @@ table {
 	width: 40%;
 }
 
-thead, tbody { display: block; }
+thead, tbody { display: block; margin: 10px 0px}
 
 tbody {
     height: 100px;       /* Just for the demo          */
@@ -20,7 +19,7 @@ tbody {
 }
 
 th, td {
-	margin: 0 5px;
+	margin: 0 15px;
     border: 1px solid black;
     padding: 5px;
 	text-align: center;
@@ -35,4 +34,8 @@ button {
 	text-align: center;
 	text-decoration: none;
 	display: inline-block;	
+}
+
+h3, p {
+    display: block;
 }
