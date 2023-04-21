@@ -1,5 +1,9 @@
 # java_simple_booking_webapp_2
-https://spring.io/guides/gs/serving-web-content/ tutorial
+- Tutorial Link : https://spring.io/guides/gs/serving-web-content/
+
+## Disclaimer !!!
+- This is not to showcase design in any shape or form
+- I am purely attempting to learn java from scratch, and refresh myself
 
 ## Screenshots
 - Index page
@@ -13,4 +17,7 @@ https://spring.io/guides/gs/serving-web-content/ tutorial
 
 - Book page : Future day booking
 ![ScreenShot](https://raw.githubusercontent.com/danrohangit/java_simple_booking_webapp_2/main/src/main/resources/static/images/book_ss_2.PNG)
+
+- Index page : After Booking
+![ScreenShot](https://raw.githubusercontent.com/danrohangit/java_simple_booking_webapp_2/main/src/main/resources/static/images/after_book_1.PNG)
 
