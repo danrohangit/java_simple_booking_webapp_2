@@ -130,6 +130,8 @@ public class GreetingController {
 				
 				LocalTime timeOnlyParsed = LocalTime.parse(timeOnly);
 				
+				timeOnlyParsed = timeOnlyParsed.plusHours(1);
+				
 				// Loop through the available times
 				for (String time : timeList) {
 					// Parse the time string into a LocalTime object
@@ -139,14 +141,32 @@ public class GreetingController {
 					if (timeOnlyParsed.compareTo(availableTime) < 0) {
 						// The available time is later than or equal to the current time,
 						// so add it to the new list
-						newTimeList.add(time);
+						
+						String theResult = dateModel.checkMaxBookings(selectedDate,time);
+						
+						if (theResult == "possible"){
+							newTimeList.add(time);
+						}
+						
+						//newTimeList.add(time);
 					}
 				}
 				model.addAttribute("timeList", newTimeList);
 			}
 			
 			else{
-				model.addAttribute("timeList", timeList);
+				
+				// Loop through the available times
+				for (String time : timeList) {
+
+					String theResult = dateModel.checkMaxBookings(selectedDate,time);
+					
+					if (theResult == "possible"){
+						newTimeList.add(time);
+					}
+				}				
+				
+				model.addAttribute("timeList", newTimeList);
 				
 			}
 			
@@ -160,13 +180,24 @@ public class GreetingController {
 	
 	// map http post request for url path /booking
     @PostMapping("/postBook")
-    public String postBook(@RequestParam("selectedDate") String selectedDate,@RequestParam("selectedTime") String selectedTime,Model model) {
-        
-		model.addAttribute("date", selectedDate);
-		model.addAttribute("time", selectedTime);
+    public String postBook(@RequestParam("selectedDate") String selectedDate,
+	@RequestParam("selectedTime") String selectedTime,
+	@RequestParam("selectedName") String selectedName,
+	@RequestParam("selectedEmail") String selectedEmail,
+	@RequestParam("selectedPhone") String selectedPhone,
+	@RequestParam("selectedLocation") String selectedLocation,Model model) {
 		
-		String bookedString = "Booked!";
-		model.addAttribute("bookedString",bookedString);		
+		try{
+			String theResult = dateModel.startBook(selectedDate,selectedTime,selectedName,selectedEmail,selectedPhone,selectedLocation);	
+			
+			String bookedString = "Booked!";
+
+			model.addAttribute("bookedString",bookedString);	
+			
+		}	catch (Exception e) {
+			//add the error message to model as attribute
+			model.addAttribute("bookedString", "Error");
+		}	
 
         return "index";
     }	
