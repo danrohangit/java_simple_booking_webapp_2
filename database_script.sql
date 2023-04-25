@@ -1,8 +1,8 @@
 -- Create a new database
-CREATE DATABASE restaurantBooking;
+CREATE DATABASE restaurantbooking;
 
 -- Use the new database
-USE restaurantBooking;
+USE restaurantbooking;
 
 -- Create a new table
 CREATE TABLE booking (
@@ -18,8 +18,13 @@ CREATE TABLE booking (
 -- create the user
 CREATE USER 'aaaa'@'localhost' IDENTIFIED BY 'qazwsx123';
 
+CREATE USER cccc@localhost IDENTIFIED BY 'edcrfv456';
+
 -- grant only insert access to user
 GRANT INSERT ON restaurantBooking.booking TO 'aaaa'@'localhost';
+
+-- grant only insert access to user
+GRANT SELECT ON restaurantBooking.booking TO cccc@localhost;
 
 -- flush to ensure changes take effect
 FLUSH PRIVILEGES;
