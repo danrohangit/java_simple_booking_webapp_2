@@ -29,6 +29,9 @@ GRANT INSERT ON restaurantBooking.booking TO 'aaaa'@'localhost';
 GRANT SELECT ON restaurantBooking.booking TO cccc@localhost;
 
 -- grant only insert access to user
+GRANT SELECT ON restaurantBooking.booking TO dddd@localhost;
+
+-- grant only insert access to user
 GRANT DELETE ON restaurantBooking.booking TO dddd@localhost;
 
 -- flush to ensure changes take effect
