@@ -20,11 +20,16 @@ CREATE USER 'aaaa'@'localhost' IDENTIFIED BY 'qazwsx123';
 
 CREATE USER cccc@localhost IDENTIFIED BY 'edcrfv456';
 
+CREATE USER dddd@localhost IDENTIFIED BY 'uhbygv123';
+
 -- grant only insert access to user
 GRANT INSERT ON restaurantBooking.booking TO 'aaaa'@'localhost';
 
 -- grant only insert access to user
 GRANT SELECT ON restaurantBooking.booking TO cccc@localhost;
+
+-- grant only insert access to user
+GRANT DELETE ON restaurantBooking.booking TO dddd@localhost;
 
 -- flush to ensure changes take effect
 FLUSH PRIVILEGES;
