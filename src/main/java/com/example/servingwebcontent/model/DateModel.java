@@ -42,6 +42,43 @@ public class DateModel {
     private String password2;	
 	
 	public List<String> getCurrentAndFutureDates() throws Exception {
+		//create a list of string dates
+		List<String> dates = new ArrayList<>();
+
+		// Load the JDBC driver class into memory and create a new connection object to database
+		try (Connection conn = DriverManager.getConnection(url2, username2, password2);
+			 // create statement obj
+			 Statement stmt = conn.createStatement()) {
+			// execute query
+			ResultSet rs = stmt.executeQuery("SELECT CURRENT_DATE()");
+
+			/* if rs.next() is true, add rs as string to date obj
+			*  attempt to get 30 days worth of dates using for loop
+			*  get current date, add i day to it to get the interval date
+			*/
+			if (rs.next()) {
+				dates.add(rs.getString(1));
+
+				for (int i = 1; i <= 31; i++) {
+					rs = stmt.executeQuery("SELECT DATE_ADD(CURRENT_DATE(), INTERVAL " + i + " DAY);");
+					if (rs.next()) {
+						dates.add(rs.getString(1));
+					} else {
+						return null;
+					}
+				}
+
+			} else {
+				return null;
+			}
+		}
+
+		return dates;
+	}
+	
+
+/*	
+	public List<String> getCurrentAndFutureDates() throws Exception {
 		// Load the JDBC driver class into memory
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		
@@ -56,83 +93,22 @@ public class DateModel {
 		
 		//execute query
 		ResultSet rs = stmt.executeQuery("SELECT CURRENT_DATE()");
+		*/
 		
 		/* if rs.next() is true, add rs as string to date obj
 		*  attempt to get 30 days worth of dates using for loop
 		*  get current date, add i day to it to get the interval date
 		*
 		*/
+		
+		/*
 		if (rs.next()) {
-			
-			/*
-			
-			rs = stmt.executeQuery("SELECT * FROM booking WHERE DATE(theDate) = CURDATE()");
-
-			int count = 0;
-			
-			if (rs.next()){
-				while (rs.next()) {
-					count++;
-				}
-				if (count<10){
-					//execute query
-					rs = stmt.executeQuery("SELECT CURRENT_DATE()");
-					
-					if (rs.next()){
-						dates.add(rs.getString(1));
-					}
-				}
-			}
-
-			else{
-				//execute query
-				rs = stmt.executeQuery("SELECT CURRENT_DATE()");
-				
-				if (rs.next()) {
-					dates.add(rs.getString(1));
-				} else {
-					// handle the case when rs is empty
-				}
-			}
-			
-			*/
 			
 			dates.add(rs.getString(1));
 			
 			for (int i = 1; i <= 31; i++) {
 				rs = stmt.executeQuery("SELECT DATE_ADD(CURRENT_DATE(), INTERVAL " + i + " DAY);");
 				if (rs.next()) {
-					
-					/*
-					
-					rs = stmt.executeQuery("SELECT * FROM booking WHERE DATE(theDate) = " + rs.getString(1) + "");
-					
-					int count1 = 0;
-
-					if (rs.next()){
-						while (rs.next()) {
-							count1++;
-						}           
-						if (count1 < 10) {
-							//execute query
-							rs = stmt.executeQuery("SELECT DATE_ADD(CURRENT_DATE(), INTERVAL " + i + " DAY);");
-							
-							dates.add(rs.getString(1));
-						}               
-					}
-
-					else{
-							//execute query
-							rs = stmt.executeQuery("SELECT DATE_ADD(CURRENT_DATE(), INTERVAL " + i + " DAY);");
-							
-							if (rs.next()) {
-								dates.add(rs.getString(1));
-							} else {
-								// handle the case when rs is empty
-							}
-						}
-					
-					*/
 					
 					dates.add(rs.getString(1));
 				}
@@ -147,7 +123,47 @@ public class DateModel {
 
 		return dates;
 	}	
+*/
 	
+	public String getCurrentDateTime() throws Exception {
+		// Load the JDBC driver class into memory
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		
+		// Create a new connection object to database
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			conn = DriverManager.getConnection(url2, username2, password2);
+
+			// Create statement obj
+			stmt = conn.createStatement();
+
+			// Execute query
+			rs = stmt.executeQuery("SELECT NOW()");
+
+			// If rs.next() is true, return string
+			if (rs.next()) {
+				return rs.getString(1);
+			} else {
+				return null;
+			}
+		} finally {
+			// Close ResultSet, Statement and Connection objects
+			if (rs != null) {
+				rs.close();
+			}
+			if (stmt != null) {
+				stmt.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+	
+	
+/*	
     public String getCurrentDateTime() throws Exception {
 		// Load the JDBC driver class into memory
 		Class.forName("com.mysql.cj.jdbc.Driver");		
@@ -168,7 +184,52 @@ public class DateModel {
             return null;
         }
     }
+*/	
+	public String checkMaxBookings(String selectedDate, String time) throws Exception {
+		// Load the JDBC driver class into memory
+		Class.forName("com.mysql.cj.jdbc.Driver");
+
+		// Create a new connection object to database
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = DriverManager.getConnection(url2, username2, password2);
+
+			// Create prepared statement obj with parameterized SQL SELECT statement
+			String query = "SELECT COUNT(*) AS count FROM booking WHERE theDate = STR_TO_DATE(?,'%Y-%m-%d %H:%i:%s')";
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, selectedDate + " " + time);
+
+			// Execute the prepared statement and get the result set
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				int count = rs.getInt("count");
+				if (count < 10) {
+					return "possible";
+				} else {
+					return "not possible";
+				}
+			} else {
+				return "possible";
+			}
+		} finally {
+			// Close the result set, statement, and connection objects
+			if (rs != null) {
+				rs.close();
+			}
+			if (pstmt != null) {
+				pstmt.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
 	
+	
+	/*
     public String checkMaxBookings(String selectedDate,String time) throws Exception {
 		// Load the JDBC driver class into memory
 		Class.forName("com.mysql.cj.jdbc.Driver");		
@@ -199,7 +260,8 @@ public class DateModel {
 		}
 
 		return "not possible";
-    }	
+    }
+	*/	
 	
 	public String startBook(String selectedDate,String selectedTime,
 	String selectedName,String selectedEmail,String selectedPhone,String selectedLocation) throws Exception{
@@ -227,8 +289,8 @@ public class DateModel {
 
 		//execute the SQL INSERT statement
 		pstmt.executeUpdate();
-
-		//close resources
+		
+		//close the database connection
 		pstmt.close();
 		conn.close();
 

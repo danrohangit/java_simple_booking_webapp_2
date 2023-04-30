@@ -4,52 +4,45 @@
 <head> 
     <title>Restaurant Booking Start</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<link rel="stylesheet" th:href="@{/css/styles.css}"/>	
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>    
 </head>
 
 <body>
 
-	<button onclick="location.href='/servingwebcontent/booking';"style="height: 60px; width: 100px;margin: 0 5px;">Previous Page</button>
+    <button onclick="location.href='/servingwebcontent/booking';" style="height: 60px; width: 100px;margin: 0 5px;">Previous Page</button>
 
-	<h3>Select Time To Book!</h3>
-	
-	<!-- Table for first month dates -->
-	<table>
-		<thead>
-			<tr>
-				<th th:text="${date}"></th>
-			</tr>
-		</thead>
-		<tbody>
-			<form method="POST" th:action="@{/postBook}">
-				<h3>Name:</h3>
-				<input name="selectedName" placeholder="Your Name Here" required>
-				</br>
-				<h3>Email:</h3>
-				<input type="email" name="selectedEmail" placeholder="Your Email Here" required>			
-				</br>
-				<h3>Phone:</h3>
-				<input name="selectedPhone" placeholder="Your Phone Number Here" required>	
-				</br>
-				
-				<tr th:each="time : ${timeList}">
-					<td th:text="${time}"></td>
-					<td>
-						<!-- submit post request to /postBook -->
-						<form method="POST" th:action="@{/postBook}">
-							<input type="hidden" name="selectedDate" th:value="${date}">
-							<input type="hidden" name="selectedTime" th:value="${time}">
-							<input name="selectedLocation" th:value="Restaurant" readonly>																	
-							<button type="submit">Select Time</button>
-						</form>
-					</td>
-				</tr>
-				
-			</form>
-			<!-- creates a table row for each date in ${timeList} -->
-		</tbody>
-	</table>	
-	
+    <h3>Select Time To Book!</h3>
+    
+    <form method="POST" th:action="@{/postBook}">
+        <h3>Name:</h3>
+        <input name="selectedName" placeholder="Your Name Here" required>
+        </br>
+        <h3>Email:</h3>
+        <input type="email" name="selectedEmail" placeholder="Your Email Here" required>            
+        </br>
+        <h3>Phone:</h3>
+        <input name="selectedPhone" placeholder="Your Phone Number Here" required>    
+        </br>
+		<h3>The Location:</h3>
+        <input name="selectedLocation" th:value="Restaurant" readonly>
+        <input type="hidden" name="selectedDate" th:value="${date}">
+        <table>
+            <thead>
+                <tr>
+                    <th th:text="${date}"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="time : ${timeList}">
+                    <td th:text="${time}"></td>
+                    <td>
+                        <button type="submit" name="selectedTime" th:value="${time}">Select Time</button>
+                    </td>
+                </tr>
+                <!-- creates a table row for each date in ${timeList} -->
+            </tbody>
+        </table>
+    </form> 
 
 </body>
 
