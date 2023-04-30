@@ -14,16 +14,16 @@
     <h3>Select Time To Book!</h3>
     
     <form method="POST" th:action="@{/postBook}">
-        <h3>Name:</h3>
-        <input name="selectedName" placeholder="Your Name Here" required>
+        <h3>Name: (Only letters and spaces allowed)</h3>
+        <input name="selectedName" placeholder="Your Name Here" pattern="[a-zA-Z ]+" required>
         </br>
-        <h3>Email:</h3>
-        <input type="email" name="selectedEmail" placeholder="Your Email Here" required>            
+        <h3>Email: (Ensure letters,numbers and correct symbols used)</h3>
+        <input type="email" name="selectedEmail" placeholder="Your Email Here" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>            
         </br>
-        <h3>Phone:</h3>
-        <input name="selectedPhone" placeholder="Your Phone Number Here" required>    
+        <h3>Phone: (Only numbers allowed)</h3>
+        <input name="selectedPhone" placeholder="Your Phone Number Here" pattern="\d+" required>    
         </br>
-		<h3>The Location:</h3>
+		<h3>The Location: (Only one location at the moment)</h3>
         <input name="selectedLocation" th:value="Restaurant" readonly>
         <input type="hidden" name="selectedDate" th:value="${date}">
         <table>
