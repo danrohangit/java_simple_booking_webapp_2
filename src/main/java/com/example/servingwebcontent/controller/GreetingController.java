@@ -195,8 +195,10 @@ public class GreetingController {
 			model.addAttribute("bookedString",bookedString);	
 			
 		}	catch (Exception e) {
+			e.printStackTrace();
+			String catchedString = selectedDate + " " + selectedTime + " " + selectedName + " " + selectedEmail + " " + selectedPhone + " " + selectedLocation;
 			//add the error message to model as attribute
-			model.addAttribute("bookedString", "Error");
+			model.addAttribute("bookedString", catchedString);
 		}	
 
         return "index";

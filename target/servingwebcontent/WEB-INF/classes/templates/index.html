@@ -10,9 +10,8 @@
 <body>
 	
 	<!-- check if null first -->
-	<h3 th:text="${date != null ? date + (time != null ? ' ' + time : '') + (bookedString != null ? ' ' + bookedString : '') : ''}"></h3>
-	
-	<!--<h3 th:text="${date + ' ' + time + ' ' + bookedString}"></h3>-->
+	<span th:if="${bookedString == 'Booked!'}" th:text="${' ' + bookedString}"></span>
+	<span th:if="${bookedString == 'Error'}" th:text="${' ' + bookedString}"></span>
 	
 
 	<p>Start booking <a href="/servingwebcontent/booking">here</a></p>
